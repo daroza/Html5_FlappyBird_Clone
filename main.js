@@ -32,6 +32,10 @@ var mainState = {
     this.pipes.createMultiple(20, 'pipe');
     // To actually add pipes in game we need to call use a timer
     this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    // We will add a score label in the top left
+    this.score = 0;
+    this.labelScore = game.add.text(20, 20, "0", {
+      font: "30px Arial", fill: "#ffffff" });
   },
 
   addOnePipe: function(x, y) {
@@ -55,6 +59,9 @@ var mainState = {
         this.addOnePipe(400, i * 60 + 10);
       }
     }
+    // We increase the score each time new pipes are created
+    this.score += 1;
+    this.labelScore.text = this.score;
   },
 
   update: function() {
@@ -63,6 +70,8 @@ var mainState = {
     if (this.bird.inWorld === false) {
       this.restartGame();
     }
+    // Restart the game every time the bird collides with a pipe
+    game.physics.arcade.overlap(this.bird, this.pipes, this.restartGame, null, this);
   },
   // Make the bird jump
   jump: function() {
