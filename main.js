@@ -11,6 +11,8 @@ var mainState = {
     game.load.image('bird', 'assets/bird.png');
     // Load the pipe sprite
     game.load.image('pipe', 'assets/pipe.png');
+    // Load the jump sound
+    game.load.audio('jump', 'assets/jump.wav');
   },
 
   create: function() {
@@ -34,6 +36,8 @@ var mainState = {
     this.pipes.createMultiple(20, 'pipe');
     // To actually add pipes in game we need to call use a timer
     this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    // We assign the jump sound effect to a variable
+    this.jumpSound = game.add.audio('jump');
     // We will add a score label in the top left
     this.score = 0;
     this.labelScore = game.add.text(20, 20, "0", {
@@ -93,6 +97,8 @@ var mainState = {
     animation.to({angle: -20}, 100);
     // Start the animation
     animation.start();
+    // This will trigger the jump sound effect
+    this.jumpSound.play();
   },
   // This is the animation that happens when a pipe is hit before game restart
   hitPipe: function() {
